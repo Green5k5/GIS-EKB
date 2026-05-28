@@ -1650,6 +1650,19 @@ body.dark-theme .gl-mode {
   background: var(--white);
 }
 
+/* Активные кнопки глоссария: правило выше по специфичности перетирало
+   золотой фон на тёмный, текст сливался. Возвращаем заливку акцентом. */
+body.dark-theme .gl-mode.active,
+body.dark-theme .gl-cat-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1a1a;
+}
+body.dark-theme .gl-cat-btn.active .gl-cat-name,
+body.dark-theme .gl-cat-btn.active .gl-cat-icon {
+  color: #1a1a1a;
+}
+
 body.dark-theme .leaflet-popup-content-wrapper {
   background: var(--white);
   color: var(--text);

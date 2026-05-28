@@ -15,6 +15,11 @@ function initMap() {
   // Сохраняем в глобальную переменную для доступа из других модулей
   window.map = map;
   window.markersGroup = markersGroup;
+  
+  // Геоподложка: исторический план Екатеринбурга 1824 г.
+  // Bounds получены из геопривязанного GeoTIFF.
+  // Контрол вкл/выкл и прозрачности - в правом нижнем углу карты.
+  initOverlay("assets/plan_1824.webp", [[56.787703, 60.560230], [56.857951, 60.665925]]);
 }
 
 function renderMap(filtered) {
@@ -77,14 +82,7 @@ function renderMap(filtered) {
       if (typeof showSelected === 'function') showSelected(item);
     });
   });
-  
-  // Подгоняем карту под видимые маркеры
-  if (markersGroup.getLayers().length > 0) {
-    try {
-      const bounds = markersGroup.getBounds();
-      if (bounds.isValid()) map.fitBounds(bounds, { padding: [30, 30], maxZoom: 16 });
-    } catch (e) {}
-  }
+  // Подгонку карты под маркеры делает update() в app.js - здесь не дублируем
 }
 
 function initOverlay(url, bounds) {

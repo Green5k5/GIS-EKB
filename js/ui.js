@@ -64,7 +64,7 @@ function showSearchResults(q) {
     return;
   }
   q = q.toLowerCase();
-  const matches = allData.filter(d => (d.surname + " " + d.name + " " + d.patronymic).toLowerCase().indexOf(q) !== -1).slice(0, 15);
+  const matches = allData.filter(d => matchesSearch(d, q)).slice(0, 15);
   if (!matches.length) {
     res.className = "search-results";
     res.innerHTML = "";

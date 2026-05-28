@@ -32,7 +32,7 @@ function loadAllRowsForFilter() {
 }
 
 // Фильтрация таблицы по городу
-function filterTableByCity(city) {
+function filterTableByCity(city, event) {
   currentCity = city;
   document.querySelectorAll(".ds-tab").forEach(t => t.classList.remove("active"));
   if (event && event.target) event.target.classList.add("active");

@@ -42,8 +42,8 @@ function clearSearch() {
   const searchInput = document.getElementById("searchInput");
   if (searchInput) {
     searchInput.value = "";
-    // Вызов updateSearchResults должен быть в глобальной области
-    if (typeof updateSearchResults === 'function') updateSearchResults("");
+    // Закрываем выпадающий список результатов поиска
+    if (typeof showSearchResults === 'function') showSearchResults("");
   }
   if (typeof update === 'function') update();
 }
@@ -82,4 +82,18 @@ function focusOnItem(id) {
       sec.insertBefore(back, sec.firstChild);
     }
   }
+}
+// Поиск по ФИО: запрос разбивается на слова, каждое слово должно
+// встретиться в имени/фамилии/отчестве. Работает по отдельным частям
+// и не зависит от порядка слов: "Иван Петров" найдёт "Петров Иван".
+function matchesSearch(item, query) {
+  if (!query) return true;
+  var full = ((item.surname || "") + " " +
+              (item.name || "") + " " +
+              (item.patronymic || "")).toLowerCase();
+  var tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+  for (var i = 0; i < tokens.length; i++) {
+    if (full.indexOf(tokens[i]) === -1) return false;
+  }
+  return true;
 }

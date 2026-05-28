@@ -13,11 +13,7 @@ function initFiltersState() {
 // Получение отфильтрованных данных
 function getFiltered() {
   return allData.filter(item => {
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      const fullName = (item.surname + " " + item.name + " " + item.patronymic).toLowerCase();
-      if (fullName.indexOf(q) === -1) return false;
-    }
+    if (searchQuery && !matchesSearch(item, searchQuery)) return false;
     for (let i = 0; i < FILTERS.length; i++) {
       const f = FILTERS[i];
       if (state[f.key].size > 0 && !state[f.key].has(item[f.key])) return false;
@@ -30,10 +26,7 @@ function getFiltered() {
 function getCrossCounts(dimKey) {
   const counts = {};
   allData.forEach(item => {
-    if (searchQuery) {
-      const fullName = (item.surname + " " + item.name + " " + item.patronymic).toLowerCase();
-      if (fullName.indexOf(searchQuery.toLowerCase()) === -1) return;
-    }
+    if (searchQuery && !matchesSearch(item, searchQuery)) return;
     for (let i = 0; i < FILTERS.length; i++) {
       const f = FILTERS[i];
       if (f.key !== dimKey && state[f.key].size > 0 && !state[f.key].has(item[f.key])) return;
