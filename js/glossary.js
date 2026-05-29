@@ -52,12 +52,6 @@ function initGlossary() {
       alphaNav.appendChild(btn);
     });
   }
-
-  // Кнопки категорий («Производство», «Чины» и т.д.): подключаем клик.
-  // filterByCat была определена, но нигде не вызывалась - кнопки не работали.
-  document.querySelectorAll(".gl-cat-btn").forEach(function(btn) {
-    btn.addEventListener("click", function() { filterByCat(btn); });
-  });
 }
 
 // Фильтрация по категории

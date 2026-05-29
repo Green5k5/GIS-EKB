@@ -13,7 +13,11 @@ function initFiltersState() {
 // Получение отфильтрованных данных
 function getFiltered() {
   return allData.filter(item => {
-    if (searchQuery && !matchesSearch(item, searchQuery)) return false;
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const fullName = (item.surname + " " + item.name + " " + item.patronymic).toLowerCase();
+      if (fullName.indexOf(q) === -1) return false;
+    }
     for (let i = 0; i < FILTERS.length; i++) {
       const f = FILTERS[i];
       if (state[f.key].size > 0 && !state[f.key].has(item[f.key])) return false;
@@ -26,7 +30,10 @@ function getFiltered() {
 function getCrossCounts(dimKey) {
   const counts = {};
   allData.forEach(item => {
-    if (searchQuery && !matchesSearch(item, searchQuery)) return;
+    if (searchQuery) {
+      const fullName = (item.surname + " " + item.name + " " + item.patronymic).toLowerCase();
+      if (fullName.indexOf(searchQuery.toLowerCase()) === -1) return;
+    }
     for (let i = 0; i < FILTERS.length; i++) {
       const f = FILTERS[i];
       if (f.key !== dimKey && state[f.key].size > 0 && !state[f.key].has(item[f.key])) return;
@@ -43,6 +50,28 @@ function toggle(key, value) {
   } else {
     state[key].add(value);
   }
+  
+  // Если переключается фильтр "Поселение", вызываем перелет камеры
+  if (key === 'settlement' && typeof flyToSettlement === 'function') {
+      // Небольшая задержка, чтобы карта успела обновиться
+      setTimeout(() => {
+          if (state.settlement.size === 1) {
+              const selectedSettlement = Array.from(state.settlement)[0];
+              flyToSettlement(selectedSettlement);
+          } else if (state.settlement.size === 0 && typeof flyToSettlement === 'function') {
+              // Если сняли все галочки, показываем все три поселения
+              if (markersGroup && markersGroup.getLayers().length > 0) {
+                  try {
+                      const bounds = markersGroup.getBounds();
+                      if (bounds.isValid() && window.map) {
+                          window.map.fitBounds(bounds, { padding: [30, 30], maxZoom: 12 });
+                      }
+                  } catch (e) {}
+              }
+          }
+      }, 100);
+  }
+  
   if (typeof update === 'function') update();
 }
 
@@ -65,6 +94,14 @@ function renderFilters() {
   container.innerHTML = "";
   
   FILTERS.forEach(cfg => {
+    // Изменяем отображаемое название фильтра для ключа "soslovie" ТОЛЬКО В ФИЛЬТРАХ
+    let title = cfg.title;
+    if (cfg.key === "soslovie") {
+        title = "Сословие";
+    } else if (cfg.key === "familyStatus") {
+        title = "Семейное положение";
+    }
+
     const cross = getCrossCounts(cfg.key);
     const vals = [];
     const seen = {};
@@ -84,7 +121,7 @@ function renderFilters() {
     
     const div = document.createElement("div");
     div.className = "filter-section";
-    let h = `<div class="filter-title">${cfg.title}${activeN ? `<span class="filter-count">${activeN}</span>` : ""}</div>`;
+    let h = `<div class="filter-title">${title}${activeN ? `<span class="filter-count">${activeN}</span>` : ""}</div>`;
     if (cfg.inline) h += '<div class="filter-row">';
     
     show.forEach(v => {

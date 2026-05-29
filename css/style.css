@@ -735,16 +735,16 @@ body {
   border: 1px dashed var(--border);
 }
 
-/* Глоссарий */
+/* ГЛОССАРИЙ */
 .gl-search {
   width: 100%;
-  max-width: 500px;
-  padding: 10px 14px 10px 40px;
+  max-width: 600px;
+  padding: 12px 16px 12px 44px;
   border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: 10px;
+  font-size: 16px;
   background: var(--white);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
   font-family: inherit;
   outline: none;
 }
@@ -755,89 +755,99 @@ body {
 
 .gl-modes {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .gl-mode {
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-size: 13px;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-size: 15px;
   cursor: pointer;
   border: 1px solid var(--border);
   background: var(--white);
-  color: var(--body);
+  color: var(--accent);
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .gl-mode.active {
   background: var(--accent);
-  color: var(--white);
+  color: var(--accent);
   border-color: var(--accent);
-  font-weight: 600;
+}
+
+.gl-mode:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .gl-letter {
   font-family: Georgia, serif;
-  font-size: 26px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--accent);
-  margin: 20px 0 8px;
-  padding-bottom: 4px;
-  border-bottom: 1px solid var(--border);
+  margin: 36px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--border);
 }
 
 .gl-entry {
   display: flex;
-  gap: 12px;
+  gap: 20px;
   background: var(--white);
-  border-radius: 8px;
-  padding: 14px;
-  margin-bottom: 8px;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .gl-cat {
-  width: 52px;
-  height: 52px;
+  width: 80px;
+  height: 80px;
   background: var(--accent-bg);
-  border-radius: 6px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 8px;
+  font-size: 11px;
   color: var(--accent);
   flex-shrink: 0;
   text-align: center;
-  padding: 4px;
+  padding: 10px;
+  font-weight: 600;
 }
 
 .gl-term {
   font-family: Georgia, serif;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 700;
-  margin-bottom: 2px;
+  margin-bottom: 8px;
+  color: var(--text);
 }
 
 .gl-desc {
-  font-size: 12px;
+  font-size: 15px;
   color: var(--body);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .gl-cats {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .gl-cat-btn {
   background: var(--white);
   border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 14px;
+  border-radius: 12px;
+  padding: 20px 16px;
   text-align: center;
   cursor: pointer;
-  transition: .15s;
+  transition: all 0.2s ease;
 }
 
 .gl-cat-btn:hover {
@@ -846,20 +856,62 @@ body {
 }
 
 .gl-cat-btn.active {
+  background: var(--accent);
   border-color: var(--accent);
+}
+
+.gl-cat-btn.active .gl-cat-name {
+  color: var(--white);
+}
+
+.gl-cat-btn.active .gl-cat-icon svg {
+  stroke: var(--white);
+}
+
+.gl-cat-btn .gl-cat-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.gl-cat-btn .gl-cat-icon svg {
+  stroke: var(--accent);
+}
+
+.gl-cat-btn .gl-cat-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.gl-alpha {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.gl-alpha-btn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  background: var(--white);
+  transition: .2s;
+}
+
+.gl-alpha-btn:hover {
   background: var(--accent);
   color: var(--white);
 }
 
-.gl-cat-btn .gl-cat-icon {
-  font-size: 20px;
-  margin-bottom: 6px;
-}
-
-.gl-cat-btn .gl-cat-name {
-  font-size: 12px;
-  font-weight: 600;
-}
 
 /* Инфографика */
 .info-grid {
@@ -1334,133 +1386,6 @@ blockquote {
   font-size: 14px;
 }
 
-/* Алфавитная навигация глоссария */
-.gl-alpha {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 16px;
-}
-
-.gl-alpha-btn {
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  font-family: Georgia, serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--accent);
-  cursor: pointer;
-  background: var(--white);
-  transition: .15s;
-}
-
-.gl-alpha-btn:hover {
-  background: var(--accent);
-  color: var(--white);
-}
-
-/* Фильтр и вкладки онлайн-таблицы */
-.ds-filter-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.ds-filter {
-  flex: 1;
-  min-width: 200px;
-  padding: 9px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 13px;
-  background: var(--bg);
-  outline: none;
-  font-family: inherit;
-}
-
-.ds-filter:focus {
-  border-color: var(--accent);
-}
-
-.ds-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 12px;
-}
-
-.ds-tab {
-  padding: 6px 14px;
-  border-radius: 6px;
-  font-size: 11px;
-  cursor: pointer;
-  border: 1px solid var(--border);
-  background: var(--white);
-  color: var(--body);
-  font-family: inherit;
-}
-
-.ds-tab.active {
-  background: var(--accent);
-  color: var(--white);
-  border-color: var(--accent);
-  font-weight: 600;
-}
-
-/* Предупреждение о повороте экрана */
-.landscape-hint {
-  display: none;
-  position: fixed;
-  top: 56px;
-  left: 0;
-  right: 0;
-  background: var(--accent-bg);
-  border-bottom: 1px solid var(--accent);
-  padding: 8px 16px;
-  font-size: 11px;
-  color: var(--accent);
-  text-align: center;
-  z-index: 1998;
-}
-
-@media (max-width:768px) {
-  .landscape-hint.show {
-    display: block;
-  }
-}
-
-/* Ручка шторки сайдбара (мобильная) */
-.sidebar-handle {
-  display: none;
-  justify-content: center;
-  padding: 10px 0 6px;
-  cursor: pointer;
-  background: var(--white);
-  border-radius: 16px 16px 0 0;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-
-.sidebar-handle-bar {
-  width: 36px;
-  height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-}
-
-.sidebar-handle-label {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
 /* ===== АДАПТИВНОСТЬ ===== */
 @media (max-width:1024px) {
   .page-scroll {
@@ -1618,6 +1543,54 @@ blockquote {
     font-size: 10px;
     padding: 6px;
   }
+  
+  /* Адаптация глоссария для мобильных */
+  .gl-letter {
+    font-size: 28px;
+    margin: 28px 0 12px;
+  }
+  
+  .gl-entry {
+    padding: 14px;
+    gap: 12px;
+  }
+  
+  .gl-cat {
+    width: 60px;
+    height: 60px;
+    font-size: 9px;
+  }
+  
+  .gl-term {
+    font-size: 16px;
+  }
+  
+  .gl-desc {
+    font-size: 13px;
+  }
+  
+  .gl-alpha-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+  
+  .gl-cats {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  
+  .gl-cat-btn {
+    padding: 14px 12px;
+  }
+  
+  .gl-cat-btn .gl-cat-icon {
+    font-size: 22px;
+  }
+  
+  .gl-cat-btn .gl-cat-name {
+    font-size: 12px;
+  }
 }
 
 /* Тёмная тема */
@@ -1648,19 +1621,6 @@ body.dark-theme .filter-option,
 body.dark-theme .gl-cat-btn,
 body.dark-theme .gl-mode {
   background: var(--white);
-}
-
-/* Активные кнопки глоссария: правило выше по специфичности перетирало
-   золотой фон на тёмный, текст сливался. Возвращаем заливку акцентом. */
-body.dark-theme .gl-mode.active,
-body.dark-theme .gl-cat-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #1a1a1a;
-}
-body.dark-theme .gl-cat-btn.active .gl-cat-name,
-body.dark-theme .gl-cat-btn.active .gl-cat-icon {
-  color: #1a1a1a;
 }
 
 body.dark-theme .leaflet-popup-content-wrapper {
@@ -1790,4 +1750,53 @@ body.dark-theme .leaflet-popup-tip {
   background: var(--white);
 }
 
+/* ===== ПРАВИЛЬНЫЕ СТИЛИ ДЛЯ КНОПОК ГЛОССАРИЯ ===== */
+/* Светлая тема - НЕВЫБРАННАЯ плашка */
+.gl-mode {
+  background-color: transparent !important;
+  color: #C49A5C !important;
+  border: 1px solid #E8E2DA !important;
+}
 
+/* Светлая тема - ВЫБРАННАЯ плашка (белый фон, оранжевый текст) */
+.gl-mode.active {
+  background-color: #FFFFFF !important;
+  color: #C49A5C !important;
+  border-color: #C49A5C !important;
+}
+
+.gl-mode.active:hover {
+  background-color: #FFFFFF !important;
+  color: #C49A5C !important;
+}
+
+.gl-mode:hover {
+  background-color: #FBF5EB !important;
+  color: #C49A5C !important;
+  border-color: #C49A5C !important;
+}
+
+/* Тёмная тема - НЕВЫБРАННАЯ плашка */
+body.dark-theme .gl-mode {
+  background-color: transparent !important;
+  color: #C49A5C !important;
+  border: 1px solid #4a4a4a !important;
+}
+
+/* Тёмная тема - ВЫБРАННАЯ плашка (белый фон, оранжевый текст) */
+body.dark-theme .gl-mode.active {
+  background-color: #2d2d2d !important;
+  color: #C49A5C !important;
+  border-color: #C49A5C !important;
+}
+
+body.dark-theme .gl-mode.active:hover {
+  background-color: #2d2d2d !important;
+  color: #C49A5C !important;
+}
+
+body.dark-theme .gl-mode:hover {
+  background-color: #3a2e1f !important;
+  color: #C49A5C !important;
+  border-color: #C49A5C !important;
+}

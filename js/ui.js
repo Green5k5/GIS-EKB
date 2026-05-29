@@ -64,7 +64,7 @@ function showSearchResults(q) {
     return;
   }
   q = q.toLowerCase();
-  const matches = allData.filter(d => matchesSearch(d, q)).slice(0, 15);
+  const matches = allData.filter(d => (d.surname + " " + d.name + " " + d.patronymic).toLowerCase().indexOf(q) !== -1).slice(0, 15);
   if (!matches.length) {
     res.className = "search-results";
     res.innerHTML = "";
@@ -81,18 +81,31 @@ function showSearchResults(q) {
   res.className = "search-results show";
 }
 
+// Функция для открытия скана в новой вкладке или через модальное окно
+function openScan(url) {
+  if (!url) return;
+  // Прямое открытие в новой вкладке - самый надёжный способ для Яндекс.Диска
+  window.open(url, '_blank');
+}
+
 // Показ выбранного участка
 function showSelected(item) {
   const sec = document.getElementById("selectedSection");
   if (!sec) return;
   sec.style.display = "block";
   
+  // Формируем номер усадьбы без .0
+  const displayNum = Math.round(parseFloat(item.num));
   const fn = [item.surname, item.name, item.patronymic].filter(Boolean).join(" ");
-  let h = `<div class="selected-title">Усадьба №${esc(item.num)}</div>
+  
+  let h = `<div class="selected-title">Усадьба №${displayNum}</div>
            <div class="selected-owner">${esc(fn)}</div>`;
   
+  // Определяем заголовки для полей (полное название для карточки)
+  let soslovieLabel = "Сословно-профессиональная группа";
+  
   [
-    ["Сословие", item.soslovie],
+    [soslovieLabel, item.soslovie],
     ["Тип", item.buildingType],
     ["Чин", item.rank],
     ["Служба", item.serviceType],
@@ -104,18 +117,22 @@ function showSelected(item) {
     if (f[1]) h += `<div class="sf"><span class="sl">${f[0]}</span><span class="sv">${esc(f[1])}</span></div>`;
   });
   
+  // Кнопка для открытия скана в новой вкладке (надёжный способ)
   if (item.scanUrl) {
-    h += `<div class="scan-block">
-            <div class="scan-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C49A5C" stroke-width="1.5">
-                <path d="M3 3C3 1.9 3.9 1 5 1H15L21 7V21C21 22.1 20.1 23 19 23H5C3.9 23 3 22.1 3 21V3Z"/>
-                <path d="M15 1V5C15 6.1 15.9 7 17 7H21"/>
-                <line x1="7" y1="11" x2="17" y2="11"/>
-                <line x1="7" y1="15" x2="15" y2="15"/>
-              </svg>
-            </div>
-            <div class="scan-text"><b>Скан ведомости</b><br><a href="${esc(item.scanUrl)}" target="_blank">↗ Открыть скан</a></div>
-          </div>`;
+      h += `<div class="scan-block" style="margin-top: 12px;">
+              <div class="scan-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C49A5C" stroke-width="1.5">
+                  <path d="M3 3C3 1.9 3.9 1 5 1H15L21 7V21C21 22.1 20.1 23 19 23H5C3.9 23 3 22.1 3 21V3Z"/>
+                  <path d="M15 1V5C15 6.1 15.9 7 17 7H21"/>
+                  <line x1="7" y1="11" x2="17" y2="11"/>
+                  <line x1="7" y1="15" x2="15" y2="15"/>
+                </svg>
+              </div>
+              <div class="scan-text">
+                <b>Скан ведомости</b><br>
+                <a href="#" onclick="openScan('${esc(item.scanUrl)}'); return false;" style="color: var(--accent); text-decoration: underline;">↗ Открыть скан в новой вкладке</a>
+              </div>
+            </div>`;
   }
   
   const card = document.getElementById("selectedCard");
@@ -205,3 +222,6 @@ function initSidebarDrag() {
     sidebar.style.transform = "";
   });
 }
+
+// Глобальное объявление функции для вызова из HTML
+window.openScan = openScan;
