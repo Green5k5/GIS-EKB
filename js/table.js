@@ -15,12 +15,8 @@ function loadAllRowsForFilter() {
     const tr = document.createElement("tr");
     tr.style.background = i % 2 === 0 ? "var(--white)" : "var(--bg)";
     tr.dataset.city = d.settlement || "";
-    
-    // Формируем номер усадьбы без .0
-    const displayNum = Math.round(parseFloat(d.num));
-    
     tr.innerHTML = `
-      <td>${displayNum}</td>
+      <td>${esc(d.num)}</td>
       <td>${esc(d.street)}</td>
       <td>${esc(d.buildingType)}</td>
       <td>${esc(fn)}</td>
@@ -36,17 +32,12 @@ function loadAllRowsForFilter() {
 }
 
 // Фильтрация таблицы по городу
-function filterTableByCity(city) {
+function filterTableByCity(city, event) {
   currentCity = city;
   document.querySelectorAll(".ds-tab").forEach(t => t.classList.remove("active"));
   if (event && event.target) event.target.classList.add("active");
   loadAllRowsForFilter();
   filterTable();
-  
-  // Вызываем функцию перелета камеры, если она доступна
-  if (typeof flyToSettlement === 'function') {
-      flyToSettlement(city);
-  }
 }
 
 // Фильтрация таблицы по тексту
