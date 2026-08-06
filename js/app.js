@@ -11,10 +11,19 @@ function update() {
     try {
       const bounds = markersGroup.getBounds();
       if (bounds.isValid() && window.map) {
-        window.map.fitBounds(bounds, { padding: [30, 30], maxZoom: 16 });
+        window.map.fitBounds(bounds, getResponsiveFitOptions(16));
       }
     } catch (e) {}
   }
+}
+
+function getResponsiveFitOptions(maxZoom) {
+  const mobile = window.matchMedia("(max-width: 768px)").matches;
+  return {
+    paddingTopLeft: [30, 30],
+    paddingBottomRight: [30, mobile ? 96 : 30],
+    maxZoom
+  };
 }
 
 // Инициализация приложения
@@ -37,7 +46,7 @@ function initApp() {
     if (markersGroup && markersGroup.getLayers().length > 0 && window.map) {
       try {
         const bounds = markersGroup.getBounds();
-        if (bounds.isValid()) window.map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
+        if (bounds.isValid()) window.map.fitBounds(bounds, getResponsiveFitOptions(14));
       } catch (e) {}
     }
   }, 300);

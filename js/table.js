@@ -24,6 +24,7 @@ function loadAllRowsForFilter() {
       <td>${esc(d.soslovie || "—")}</td>
       <td>${esc(d.rank || "—")}</td>
       <td style="color:var(--accent)">${d.area_sazh ? d.area_sazh + " саж." : "—"}</td>
+      <td>${esc(formatArchiveSource(d.source) || "—")}</td>
     `;
     tbody.appendChild(tr);
   }

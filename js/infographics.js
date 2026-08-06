@@ -104,10 +104,10 @@ function renderInfographics() {
   
   // 6. Структура поселений
   let h7 = `<div class="info-card"><h3>Структура поселений</h3>
-            <div style="display:flex;gap:20px;margin-top:12px;justify-content:center">`;
+            <div class="settlement-bubbles">`;
   [["Екатеринбург", 2103, "var(--ekb)"], ["Нижне-Исетск", 243, "var(--niz)"], ["Уктус", 224, "var(--ukt)"]].forEach(r => {
-    h7 += `<div style="text-align:center">
-            <div style="width:${Math.round(r[1] / 25)}px;height:${Math.round(r[1] / 25)}px;border-radius:50%;background:${r[2]};opacity:.3;border:2px solid ${r[2]};margin:0 auto 8px"></div>
+    h7 += `<div class="settlement-bubble">
+            <div class="settlement-circle" style="width:${Math.round(r[1] / 25)}px;height:${Math.round(r[1] / 25)}px;background:${r[2]};border-color:${r[2]}"></div>
             <div style="font-weight:700;font-size:14px">${r[1]}</div>
             <div style="font-size:11px;color:var(--body)">${r[0]}</div>
            </div>`;

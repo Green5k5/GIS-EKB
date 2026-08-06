@@ -3,6 +3,11 @@ let state = {};
 let searchQuery = "";
 let expanded = {};
 
+const HIDDEN_FILTER_VALUES = {
+  servicePlace: new Set(["Третья часть"]),
+  registrationPlace: new Set(["Место приписки"])
+};
+
 // Инициализация состояния фильтров
 function initFiltersState() {
   FILTERS.forEach(f => {
@@ -78,8 +83,9 @@ function renderFilters() {
     const cross = getCrossCounts(cfg.key);
     const vals = [];
     const seen = {};
+    const hiddenValues = HIDDEN_FILTER_VALUES[cfg.key];
     allData.forEach(d => {
-      if (d[cfg.key] && !seen[d[cfg.key]]) {
+      if (d[cfg.key] && !hiddenValues?.has(d[cfg.key]) && !seen[d[cfg.key]]) {
         seen[d[cfg.key]] = true;
         vals.push(d[cfg.key]);
       }
@@ -104,17 +110,17 @@ function renderFilters() {
       const swatch = cfg.key === "soslovie" && typeof getSoslovieColor === "function"
         ? `<span class="filter-swatch" style="background:${esc(getSoslovieColor({ soslovie: v }))}"></span>`
         : "";
-      h += `<div class="filter-option${isA ? " active" : ""}${dis ? " disabled" : ""}" data-key="${esc(cfg.key)}" data-val="${esc(v)}">
-              <div class="cb">${isA ? "✓" : ""}</div>
+      h += `<button type="button" class="filter-option${isA ? " active" : ""}${dis ? " disabled" : ""}" data-key="${esc(cfg.key)}" data-val="${esc(v)}" aria-pressed="${isA}"${dis ? " disabled" : ""}>
+              <span class="cb" aria-hidden="true">${isA ? "✓" : ""}</span>
               ${swatch}
               <span>${esc(v)}</span>
               <span class="fb">${cnt}</span>
-            </div>`;
+            </button>`;
     });
     
     if (cfg.inline) h += "</div>";
     if (vals.length > limit && !isExp) {
-      h += `<div class="filter-expand" data-key="${esc(cfg.key)}">Ещё ${vals.length - limit} ▾</div>`;
+      h += `<button type="button" class="filter-expand" data-key="${esc(cfg.key)}">Ещё ${vals.length - limit} ▾</button>`;
     }
     div.innerHTML = h;
     container.appendChild(div);
@@ -155,16 +161,18 @@ function renderActiveTags() {
   container.innerHTML = "";
   
   tags.forEach(t => {
-    const span = document.createElement("span");
-    span.className = "tag";
-    span.textContent = (t.key === "search" ? `«${t.val}»` : t.val) + " ×";
-    span.onclick = () => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "tag";
+    button.textContent = (t.key === "search" ? `«${t.val}»` : t.val) + " ×";
+    button.setAttribute("aria-label", `Убрать фильтр ${t.val}`);
+    button.onclick = () => {
       if (t.key === "search") {
         clearSearch();
       } else {
         toggle(t.key, t.val);
       }
     };
-    container.appendChild(span);
+    container.appendChild(button);
   });
 }

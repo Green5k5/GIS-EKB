@@ -6,8 +6,15 @@ function esc(s) {
   return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+// Единый формат архивного шифра для отображения в интерфейсе.
+function formatArchiveSource(source) {
+  const value = String(source || "").trim();
+  if (!value) return "";
+  return /^ГАСО(?:\.|\s)/i.test(value) ? value : `ГАСО. ${value}`;
+}
+
 // Скачивание CSV
-function downloadCSV(settlement) {
+/* function downloadCSV(settlement) {
   let data = settlement ? allData.filter(d => d.settlement === settlement) : allData;
   const keys = ["id", "num", "settlement", "street", "buildingType", "surname", "name", "patronymic", "soslovie", "familyStatus", "sex", "serviceType", "rank", "position", "servicePlace", "registrationPlace", "area_sazh", "source", "scanUrl", "lat", "lng"];
   const headers = ["ID", "Номер", "Поселение", "Улица", "Тип постройки", "Фамилия", "Имя", "Отчество", "Сословие", "Семейное положение", "Пол", "Род службы", "Чин", "Должность", "Место службы", "Место приписки", "Площадь (саж.)", "Источник", "Скан", "Широта", "Долгота"];
@@ -29,12 +36,20 @@ function downloadCSV(settlement) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-}
+} */
 
 // Закрытие мобильного меню
 function closeMobile() {
   const menu = document.getElementById("mobileMenu");
   if (menu) menu.classList.remove("show");
+  if (menu) menu.setAttribute("aria-hidden", "true");
+  const burger = document.getElementById("burgerBtn");
+  if (burger) {
+    burger.setAttribute("aria-expanded", "false");
+    burger.setAttribute("aria-label", "Открыть меню");
+  }
+  document.body.classList.remove("mobile-menu-open");
+  document.querySelectorAll(".page").forEach(page => page.removeAttribute("inert"));
 }
 
 // Очистка поиска
